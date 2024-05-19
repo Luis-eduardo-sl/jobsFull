@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // provider = "postgres"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model job {
+  id               Int    @id @default(autoincrement())
+  companyFunction  String @db.VarChar(250)
+  companyName      String @db.VarChar(250)
+  companyLocation  String @db.VarChar(250)
+  salary           String @db.VarChar(250)
+  companyLogo      String @db.Text
+  jobDescription   String  
+}
+
+model user {
+  id     Int    @id @default(autoincrement())
+  name   String @db.VarChar(250)
+  email  String @unique(map: "unique-email") @db.VarChar(250)
+  pass   String @db.Text
+  avatar String @db.Text
+  sessions session[]
+}
+
+model session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @db.VarChar(1000) @unique
+  createdAt DateTime @default(now())
+  user     user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], name: "userId")
+}
