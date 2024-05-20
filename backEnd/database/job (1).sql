@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `job`
 --
+create schema if not exists `job` default character set utf8;
+use `job`;
 
 -- --------------------------------------------------------
 
