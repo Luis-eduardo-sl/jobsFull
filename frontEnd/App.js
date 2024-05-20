@@ -27,22 +27,14 @@ const UserNavigator = () => {
         options={{
           headerShown: false
         }} />
-      {/* <Stack.Screen
-        name="Editar"
-        component={Editar}
-        options={{
-          headerStyle: { backgroundColor: '#000' },
-          headerTitleStyle: { color: "#FFF", },
-          headerTintColor: "#FFF"
-        }} /> */}
       <Stack.Screen
         name="JobDetails"
         component={JobDetails}
         options={{
           headerShown: true,
-          headerTransparent: true, // Adicionado esta linha
-          headerTitle: '', // Adicionado esta linha
-          headerTintColor: "#000" // Isso define a cor da seta de voltar
+          headerTransparent: true, 
+          headerTitle: '', 
+          headerTintColor: "#000" 
         }}
       />
     </Stack.Navigator>
@@ -55,27 +47,31 @@ const MainNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{
       headerStyle: { backgroundColor: '#000' },
+      tabBarActiveTintColor: "#123DDB",
+      tabBarInactiveTintColor: "#000",
       headerTitleStyle: { color: "#FFF" },
-      tabBarShowLabel: false
+      tabBarShowLabel: false,
     }}>
       <Tab.Screen
         name="Users"
         component={UserNavigator}
         options={{
           headerShown: false,
-          tabBarIcon: () => (
-            <Feather name="home" color={{color: "#000"}} size={25} />
+          tabBarIcon: ({color} ) => (
+            <Feather name="home" color={color}  size={25} />
           )
         }}
       />
       <Tab.Screen name="Products" component={CadastrarJob} options={{
-        tabBarIcon: () => (
-          <Octicons name="diff-added" size={24} color="black" />        
+        headerShown: false,
+        tabBarIcon: ({color} ) => (
+          <Octicons name="diff-added" size={24} color={color}  />        
         )
       }}/>
       <Tab.Screen name="Teste" component={Products} options={{
-        tabBarIcon: () => (
-          <Feather name="user" size={24} color="black" />
+        headerShown: false,
+        tabBarIcon: ({color}) => (
+          <Feather name="user" size={24} color={color} />
         )
       }} />
 
