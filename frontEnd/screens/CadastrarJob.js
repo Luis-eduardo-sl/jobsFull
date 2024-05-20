@@ -57,9 +57,9 @@ const CadastrarJob = () => {
         style={styles.inputTxt}
         multiline={true}
         numberOfLines={4}
-        />
+      />
     
-      <Button title="Cadastrar Vaga" onPress={postJob} />
+      <Button title="Cadastrar Vaga" onPress={postJob} style={styles.btn}/>
     </View>
   );
 };
@@ -68,32 +68,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    padding: 20,
     backgroundColor: '#FAFAFC',
+    alignItems:'center'
   },
   input: {
     height: 40,
+    // width: 370,
     borderColor: 'gray',
     borderWidth: 1,
+    width: '80%',
     marginBottom: 10,
     padding: 10,
     borderRadius:5,
+    borderColor: '#ddd',
   },
   inputTxt:{
     height: 100,
     borderColor: 'gray',
     borderWidth: 1,
+    width: '80%',
     marginBottom: 10,
     padding: 10,
     borderRadius:5,
+    borderColor: '#ddd',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
-
   },
+  btn:{
+    width: '100%',
+  }
 });
 
 export default CadastrarJob;
