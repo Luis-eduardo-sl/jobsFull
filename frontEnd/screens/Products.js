@@ -2,24 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Image, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../components/ui/Button';
+import useUserLoggedStore from '../stores/useUserLoggedStore';
+import axios from 'axios';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
-const Products = ({user}) => {
-  const [avatar, setAvatar] = useState(null);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState('default_avatar_url');
+const Products = () => {
+  const userLogged = useUserLoggedStore(state=>state)
+  const [avatar, setAvatar] = useState(userLogged.avatar);
+  const [name, setName] = useState(userLogged.name);
+  const [email, setEmail] = useState(userLogged.email);
+  const [avatarUrl, setAvatarUrl] = useState(userLogged.avatar);
+  const navigation = useNavigation();
+  const logout = useUserLoggedStore(state => state.logout)
+
 
 
   
 
-  const saveAS = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (error) {
-      console.log('Erro ao gravar dado');
-    }
-  };
+  // const saveAS = async (key, value) => {
+  //   try {
+  //     await AsyncStorage.setItem(key, value);
+  //   } catch (error) {
+  //     console.log('Erro ao gravar dado');
+  //   }
+  // };
 
   const getAS = async (key) => {
     let dataFound = null;
@@ -32,31 +39,60 @@ const Products = ({user}) => {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      const storedAvatar = await getAS('avatar');
-      const storedName = await getAS('name');
-      const storedEmail = await getAS('email');
+    setAvatar(userLogged.avatar);
+    setName(userLogged.name);
+    setEmail(userLogged.email);
+  }, [userLogged]);
 
-      if (storedAvatar) setAvatar(storedAvatar);
-      if (storedName) setName(storedName);
-      if (storedEmail) setEmail(storedEmail);
-    };
+  const handleSave = async () => {
+    try {
 
-    getData();
-  }, []);
-
-  const handleSave = () => {
-    saveAS('avatar', avatar);
-    saveAS('name', name);
-    saveAS('email', email);
+      const id = userLogged.id
+      const updatedData= {name, email, avatar}
+      const token = userLogged.token; 
+      const response = await axios.put(`http://localhost:3333/user/${id}`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }})
+  
+      if (response.status === 200) {
+        console.log('Usuário atualizado com sucesso');
+      } else {
+        console.log('Erro ao atualizar o usuário');
+      }
+    } catch (error) {
+      if(error.response){
+        console.error('Erro ao fazer a requisição PUT', error.response);
+      }
+      AsyncStorage.removeItem('userLogged')
+      userLogged.logout()
+      navigation.pop()
+      navigation.navigate('Login')
+    }
   };
 
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('userLogged')
+      logout()
+      navigation.pop()
+      navigation.navigate('Login')
+    } catch (error){
+      console.log(error)
+      alert('Erro ao fazer logout!')
+    }
+  }
+
   return (
+   
     <View style={styles.container}>
+       <View style={styles.titleAdd}>
+          <Button title="Logout" onPress={handleLogout} />
+        </View>
     <Text style={styles.title}>Editar Usuário</Text>
     <Image
         style={styles.avatar}
-        source={{ uri: user ? user.avatar : 'https://avatars.githubusercontent.com/u/133153563?v=4' }}
+        source={{ uri: userLogged ? userLogged.avatar : 'https://avatars.githubusercontent.com/u/133153563?v=4' }}
     />
     <TextInput value={avatar} onChangeText={setAvatar} placeholder="Avatar URL" style={styles.input} />
     <TextInput value={name} onChangeText={setName} placeholder="Nome" style={styles.input} />
@@ -93,6 +129,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  titleAdd:{
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
 });
 
