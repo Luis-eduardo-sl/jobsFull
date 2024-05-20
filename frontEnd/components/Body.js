@@ -15,7 +15,6 @@ const Body = () => {
 
   const users = useUserStore((state) => state.users)
   const setUsers = useUserStore((state) => state.setUsers)
-  const logout = useUserLoggedStore(state => state.logout)
 
   console.log('Plataforma Atual: ', Platform.OS)
 
@@ -35,59 +34,30 @@ const Body = () => {
     getUsers()
   },[])
 
-  const handleLogout = async () => {
-    try {
-      await AsyncStorage.removeItem('userLogged')
-      logout()
-      navigation.navigate('Login')
-    } catch (error){
-      console.log(error)
-      alert('Erro ao fazer logout!')
-    }
-  }
+
 
   return (
-    <View style={{flex: 1}}>
+    <View >
         <View style={styles.titleAdd}>
-          <Button title="Logout" onPress={handleLogout} />
+          <Text style={styles.logo}>Job</Text>
         </View>
-        
-        {/* <View style={styles.listUser}>
-            {users.length ? 
-              <FlatList
-                style={{width: '100%'}}
-                data={users}
-                renderItem={({item}) => <CardUser user={item} />}
-                keyExtractor={item => item.id}
-                ListHeaderComponent={Header}
-                ListFooterComponent={Footer}
-                contentContainerStyle={StyleSheet.flatten([styles.flatListUser, { paddingTop: 100 }])} // Corrigido aqui
-              /> : 
-              <Text style={{color: '#FFF'}}>Loading...</Text>}
-        </View> */}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-    usuariosH1: {
-      marginBottom: 20,
-      color: "#FFF",
-    },
-    listUser:{
-      display: 'flex',
-      width: '100%',
-      alignItems: 'center',
-      marginBottom: 20,
-      maxHeight: Platform.OS === 'web' ? '90vh' : null
-    },
     titleAdd:{
       flex: 1,
-      alignItems: 'flex-end',
-      paddingHorizontal: 20,
+      alignItems: 'center',
+      // paddingHorizontal: 20,
     },
-    flatListUser: {
-      alignSelf: 'center'
+    logo:{
+      fontSize:40,
+      fontWeight: 700,
+      color: '#123DDB',
+      textAlign: 'center',
+      // marginBottom: 20,
+
     }
   }
 )
