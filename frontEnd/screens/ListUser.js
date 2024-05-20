@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ImageBackground, StatusBar,TouchableOpacity,Pressable } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ImageBackground, StatusBar,TouchableOpacity,Pressable, TextInput } from 'react-native';
 import Body from '../components/Body';
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,6 +7,12 @@ import { useNavigation } from '@react-navigation/native';
 const ListUser = () => {
   const navigation = useNavigation();
   const [jobs, setJobs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+  const filteredJobs = jobs.filter(job => 
+    job.companyFunction.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getJobs = async () => {
     try {
@@ -25,48 +31,45 @@ const ListUser = () => {
 
   return (
     <View style={styles.container}>
-  <Body />
-  <View style={styles.boasVindas}>
-    <Text style={styles.userName}>Olá Luis</Text>
-    <Text style={styles.welcomeMessage}>Ache o emprego perfeito</Text>
-  </View>
-  <View style={{flex: 6}}> 
-    <FlatList 
-      data={jobs}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        <Pressable onPress={() => navigation.navigate('JobDetails', { job: item })}>
-          <View style={styles.card}>
-            <Image source={{ uri: item.companyLogo }} style={styles.image} />
-            <View style={styles.cardContent}>
-              <View style={styles.titleLocationContainer}>
-                <Text style={styles.title}>{item.companyFunction}</Text>
-                <Text style={styles.companyLocation}>{item.companyLocation}</Text>
+      <Body />
+      <View style={styles.boasVindas}>
+        <Text style={styles.userName}>Olá Luis</Text>
+        <Text style={styles.welcomeMessage}>Ache o emprego perfeito</Text>
+      </View>
+      <TextInput
+        style={styles.input}
+        value={searchTerm}
+        onChangeText={setSearchTerm}
+        placeholder="Pesquisar"
+      />
+      <View style={{flex: 6}}> 
+        <FlatList 
+          data={filteredJobs}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Pressable onPress={() => navigation.navigate('JobDetails', { job: item })}>
+              <View style={styles.card}>
+                <Image source={{ uri: item.companyLogo }} style={styles.image} />
+                <View style={styles.cardContent}>
+                  <View style={styles.titleLocationContainer}>
+                    <Text style={styles.title}>{item.companyFunction}</Text>
+                    <Text style={styles.companyLocation}>{item.companyLocation}</Text>
+                  </View>
+                  <Text style={styles.companyName}>{item.companyName}</Text>
+                  <Text style={styles.salary}>R$ {item.salary}</Text>
+                </View>
               </View>
-              <Text style={styles.companyName}>{item.companyName}</Text>
-              <Text style={styles.salary}>R$ {item.salary}</Text>
-              {/* <Text style={styles.jobDescription} numberOfLines={2} ellipsizeMode='tail'>
-                {item.jobDescription}
-              </Text> */}
-            </View>
-          </View>
-        </Pressable>
-      )}
-      // keyExtractor={item => item.id.toString()}
-    />
-  </View>
-  <StatusBar style="light" />
-</View>
-  );
-}
+            </Pressable>
+          )}
+        />
+      </View>
+    </View>
+  );}
 
 const styles = StyleSheet.create({
   boasVindas: {
-    flex: 1,
     backgroundColor: '#FAFAFC',
-    position: 'absolute', // Adicionado esta linha
-    top: 0,
-    marginTop: 50
+    marginBottom:20
   },
   container: {
     flex: 1,
@@ -125,6 +128,18 @@ const styles = StyleSheet.create({
   titleLocationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  input: {
+    height: 40,
+    width: 380,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+    alignSelf:'center',
+    borderColor:'#a1b4f7'
   },
 });
 
