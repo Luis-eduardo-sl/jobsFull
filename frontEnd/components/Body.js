@@ -18,7 +18,7 @@ const Body = () => {
   const getUsers = async () => {
     try{
       //const result = await fetch('https://onrender.com/user')
-      const result = await fetch('http://localhost:3333/user')
+      const result = await fetch('https://jobsfull.onrender.com/user')
       const data = await result.json()
       console.log(data.success)
       setUsers(data.users)

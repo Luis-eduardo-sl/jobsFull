@@ -20,7 +20,7 @@ const ListUser = () => {
 
   const getJobs = async () => {
     try {
-      const result = await fetch('http://localhost:3333/job');
+      const result = await fetch('https://jobsfull.onrender.com/job');
       const data = await result.json();
       console.log(data.success);
       setJobs(data.jobs);

@@ -15,7 +15,7 @@ const Cadastrar = () => {
     const postUser = async () =>{
         try{
           //const result = await fetch('https://.onrender.com/user', {
-          const result = await fetch('http://localhost:3333/user', {
+          const result = await fetch('https://jobsfull.onrender.com/user', {
             method: "POST",
             headers:{
               "Content-Type": "application/json"

@@ -17,7 +17,7 @@ const authFetch = async (url, options) => {
         const data = await response.json()
         if(data?.error && data?.code && data.code === "expired-token"){
             console.log('Token Expirado...')
-            const resRefreshToken = await fetch('http://localhost:3333/auth/refresh-token', {
+            const resRefreshToken = await fetch('https://jobsfull.onrender.com/auth/refresh-token', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

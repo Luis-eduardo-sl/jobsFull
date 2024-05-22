@@ -39,7 +39,7 @@ const Perfil = () => {
       const id = userLogged.id
       const updatedData= {name, email, avatar}
       const token = userLogged.token; 
-      const response = await axios.put(`http://localhost:3333/user/${id}`, updatedData, {
+      const response = await axios.put(`https://jobsfull.onrender.com/user/${id}`, updatedData, {
       headers: {
         Authorization: `Bearer ${token}`
       }})
