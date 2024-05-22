@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, ImageBackground, StatusBar,TouchableOpacity,Pressable, TextInput } from 'react-native';
 import Body from '../components/Body';
 import { useNavigation } from '@react-navigation/native';
+import useUserLoggedStore from '../stores/useUserLoggedStore';
+
 
 
 const ListUser = () => {
   const navigation = useNavigation();
   const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const name = useUserLoggedStore(state => state.name)
+
 
 
   const filteredJobs = jobs.filter(job => 
@@ -33,7 +37,7 @@ const ListUser = () => {
     <View style={styles.container}>
       <Body />
       <View style={styles.boasVindas}>
-        <Text style={styles.userName}>Olá Luis</Text>
+        <Text style={styles.userName}>Olá {name?.split(" ")[0]}</Text>
         <Text style={styles.welcomeMessage}>Ache o emprego perfeito</Text>
       </View>
       <TextInput
