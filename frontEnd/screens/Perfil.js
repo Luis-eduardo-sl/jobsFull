@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
-const Products = () => {
+const Perfil = () => {
   const userLogged = useUserLoggedStore(state=>state)
   const [avatar, setAvatar] = useState(userLogged.avatar);
   const [name, setName] = useState(userLogged.name);
@@ -16,18 +16,7 @@ const Products = () => {
   const navigation = useNavigation();
   const logout = useUserLoggedStore(state => state.logout)
 
-
-
   
-
-  // const saveAS = async (key, value) => {
-  //   try {
-  //     await AsyncStorage.setItem(key, value);
-  //   } catch (error) {
-  //     console.log('Erro ao gravar dado');
-  //   }
-  // };
-
   const getAS = async (key) => {
     let dataFound = null;
     try {
@@ -137,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Products;
+export default Perfil;

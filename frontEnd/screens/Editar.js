@@ -116,8 +116,8 @@ const Editar = () => {
               />
 
               <Button 
-                  title="Products"
-                  onPress={() => navigation.navigate('Products')}
+                  title="Perfil"
+                  onPress={() => navigation.navigate('Perfil')}
               />
           </View>
       </ScrollView>
