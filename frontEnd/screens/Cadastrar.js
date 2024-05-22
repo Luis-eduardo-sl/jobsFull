@@ -14,7 +14,7 @@ const Cadastrar = () => {
 
     const postUser = async () =>{
         try{
-          //const result = await fetch('https://backend-api-express-1sem2024-rbd1.onrender.com/user', {
+          //const result = await fetch('https://.onrender.com/user', {
           const result = await fetch('http://localhost:3333/user', {
             method: "POST",
             headers:{

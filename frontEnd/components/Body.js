@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     titleAdd:{
       flex: 1,
       alignItems: 'center',
-      // paddingHorizontal: 20,
     },
     logo:{
       fontSize:40,
