@@ -13,7 +13,7 @@ const app = express()
 app.use(logger)
 app.use(cookieParser())
 app.use(cors({
-  origin: ['http://localhost:3333', 'http://localhost:3333/:id', 'http://localhost:8081', 'http://localhost:3333/job','http://localhost:3333/job:/id'],
+  origin: ['http://localhost:3333', 'http://localhost:3333/:id', 'http://localhost:8081', 'http://localhost:3333/job','http://localhost:3333/job:/id','https://6xfmm-o-anonymous-8081.exp.direct'],
   methods: ['GET', 'PUT', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }))
