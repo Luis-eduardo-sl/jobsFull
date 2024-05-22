@@ -13,11 +13,13 @@ const jobSchema = z.object({
         required_error: "O cargo da vaga é obrigatória.",
         invalid_type_error: "A cargo da vaga deve ser uma string.",
       })
+      .min(2, "o nome da função é obrigatorio")
       .max(250, {message: 'A cargo da vaga deve ter no máximo 250 caracteres.'}),
     companyName: z.string({
         required_error: "Nome da empresa é obrigatório.",
         invalid_type_error: "O nome da empresa deve ser uma string.",
       })
+      .min(2, "o nome da empresa é obrigatorio")
       .max(250, {message: 'O nome da empresa deve ter no máximo 250 caracteres.'}),
     companyLocation: z.string({
         required_error: "Localização da empresa é obrigatória.",
