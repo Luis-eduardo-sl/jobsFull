@@ -53,7 +53,9 @@ const ListUser = () => {
           renderItem={({ item }) => (
             <Pressable onPress={() => navigation.navigate('JobDetails', { job: item })}>
               <View style={styles.card}>
-                <Image source={{ uri: item.companyLogo }} style={styles.image} />
+                <Image  style={styles.image} 
+                 source={{ uri: item.companyLogo ? item.companyLogo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfmWh-XjegmLYmjrErivP95Nfsu4zkB3815Q&s' }}
+                />
                 <View style={styles.cardContent}>
                   <View style={styles.titleLocationContainer}>
                     <Text style={styles.title}>{item.companyFunction}</Text>
@@ -134,8 +136,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   input: {
+    padding: 10,
     height: 40,
-    width: 380,
+    width: 350,
     borderColor: 'gray',
     borderWidth: 1,
     paddingLeft: 10,
