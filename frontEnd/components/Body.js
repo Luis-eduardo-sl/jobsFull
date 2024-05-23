@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     logo:{
       fontSize:40,
-      fontWeight: 700,
+      fontWeight: "700",
       color: '#123DDB',
       textAlign: 'center',
     }
