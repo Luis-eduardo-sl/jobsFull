@@ -44,7 +44,6 @@ const Body = () => {
 
 const styles = StyleSheet.create({
     titleAdd:{
-      flex: 1,
       alignItems: 'center',
     },
     logo:{
