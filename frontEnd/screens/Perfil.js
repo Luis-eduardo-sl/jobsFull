@@ -72,21 +72,46 @@ const Perfil = () => {
     }
   }
 
+
+  async function handleDelete() {
+    try {
+      
+      const userLogged = JSON.parse(await AsyncStorage.getItem('userLogged'));
+      const token = userLogged.token; 
+  
+      const response = await axios.delete(`https://jobsfull.onrender.com/user/${userLogged.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      });
+  
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('userLogged');
+  
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Failed to delete user:', error);
+    }
+  }
+  
   return (
-   
-    <View style={styles.container}>
+
+  <View style={styles.container}>
        <View style={styles.titleAdd}>
           <Button title="Logout" onPress={handleLogout} />
         </View>
     <Text style={styles.title}>Editar Usuário</Text>
     <Image
         style={styles.avatar}
-        source={{ uri: userLogged ? userLogged.avatar : 'https://avatars.githubusercontent.com/u/133153563?v=4' }}
+        source={{ uri: userLogged.avatar ? userLogged.avatar : 'https://avatars.githubusercontent.com/u/133153563?v=4' }}
     />
     <TextInput value={avatar} onChangeText={setAvatar} placeholder="Avatar URL" style={styles.input} />
     <TextInput value={name} onChangeText={setName} placeholder="Nome" style={styles.input} />
     <TextInput value={email} onChangeText={setEmail} placeholder="Email" style={styles.input} />
     <Button title="Salvar" onPress={handleSave} />
+    <View style={styles.titleDelete}>
+    <Button onPress={handleDelete} title="Deletar conta" style={styles.delete} />
+        </View>
   </View>
   );
 };
@@ -124,6 +149,14 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
+  delete:{
+    backgroundColor: '#ED0600'
+  },
+  titleDelete:{
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+  }
 });
 
 export default Perfil;
