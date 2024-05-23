@@ -10,6 +10,7 @@ import Splash from './screens/Splash.js'
 import Login from './screens/Login.js'
 import CadastrarJob from './screens/CadastrarJob.js'
 import JobDetails from './screens/JobDetails.js'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -41,6 +42,7 @@ const UserNavigator = () => {
 
 const MainNavigator = () => {
   return (
+    <SafeAreaView style={{flex: 1}}>
     <Tab.Navigator screenOptions={{
       headerStyle: { backgroundColor: '#000' },
       tabBarActiveTintColor: "#123DDB",
@@ -72,6 +74,7 @@ const MainNavigator = () => {
       }} />
 
     </Tab.Navigator>
+    </SafeAreaView>
   )
 }
 
