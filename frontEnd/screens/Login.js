@@ -1,5 +1,4 @@
 import {View, Text, StyleSheet, TextInput, ImageBackground} from 'react-native'
-//import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../components/ui/Button'
 import { useNavigation } from '@react-navigation/native'
 import H1 from '../components/ui/H1.js'
@@ -47,40 +46,44 @@ const Login = () => {
   }
 
   return (
-    <ImageBackground source={require('../assets/login.png')} style={styles.img}>
-      <View style={styles.container}>
-        <H1 style={styles.texto}>Entrar</H1>
 
-        <TextInput 
-          style={styles.input}
-          placeholder='Email...'
-          onChangeText={setTxtEmail}
-          value={txtEmail}
+      <ImageBackground source={require('../assets/login.png')} style={styles.img}>
+    <View style={{flex: 1}}>
+        <View style={styles.container}>
+          <H1 style={styles.texto}>Entrar</H1>
+
+          <TextInput 
+            style={styles.input}
+            placeholder='Email...'
+            onChangeText={setTxtEmail}
+            value={txtEmail}
+            />
+          <TextInput 
+            style={styles.input}
+            placeholder='Senha...'
+            onChangeText={setTxtPass}
+            value={txtPass}
+            secureTextEntry={true}
           />
-        <TextInput 
-          style={styles.input}
-          placeholder='Senha...'
-          onChangeText={setTxtPass}
-          value={txtPass}
-          secureTextEntry={true}
-        />
 
-        <Button 
-          title="           Login           "
-          onPress={handleLogin}
-        />
-        <View style={styles.cadastrar}>
-          <Text> Não tem conta? </Text>
           <Button 
-            title="Cadastre-se"
-            onPress={() => navigation.navigate('Cadastrar')}
-            style={styles.btn}
-            textStyle={styles.cadastroText}
+            title="           Login           "
+            onPress={handleLogin}
           />
-        </View>
+          <View style={styles.cadastrar}>
+            <Text> Não tem conta? </Text>
+            <Button 
+              title="Cadastre-se"
+              onPress={() => navigation.navigate('Cadastrar')}
+              style={styles.btn}
+              textStyle={styles.cadastroText}
+            />
+          </View>
 
-      </View>
-    </ImageBackground>
+        </View>
+    </View>
+      </ImageBackground>
+   
   )
 }
 
@@ -106,6 +109,8 @@ const styles = StyleSheet.create({
     img:{
       width: '100%',
       height: '100%',
+      resizeMode : 'cover',
+      flex:1
     },
     texto:{
       marginBottom:20,
