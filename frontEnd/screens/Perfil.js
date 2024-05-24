@@ -43,7 +43,9 @@ const Perfil = () => {
       headers: {
         Authorization: `Bearer ${token}`
       }})
-  
+       userLogged.login(response.data.user, token)
+       const userLoggedString = JSON.stringify({...response.data.user, token: token});
+      await AsyncStorage.setItem('userLogged', userLoggedString);
       if (response.status === 200) {
         console.log('Usuário atualizado com sucesso');
       } else {

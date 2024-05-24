@@ -3,12 +3,13 @@ import { View, Text, FlatList, Image, StyleSheet, ImageBackground, StatusBar,Tou
 import Body from '../components/Body';
 import { useNavigation } from '@react-navigation/native';
 import useUserLoggedStore from '../stores/useUserLoggedStore';
+import useJobStore from '../stores/jobStore';
 
 
 
 const ListJob = () => {
   const navigation = useNavigation();
-  const [jobs, setJobs] = useState([]);
+  const {jobs, setJobs} = useJobStore(state=>state);
   const [searchTerm, setSearchTerm] = useState('');
   const name = useUserLoggedStore(state => state.name)
 

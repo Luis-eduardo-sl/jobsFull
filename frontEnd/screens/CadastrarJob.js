@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet,Text } from 'react-native';
 import Button from '../components/ui/Button';
 import { useNavigation } from '@react-navigation/native';
+import useJobStore from '../stores/jobStore';
+
 
 const CadastrarJob = () => {
   const navigation = useNavigation();
 
+  const jobStore= useJobStore(state=>state);
   const [companyFunction, setcompanyFunction] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [companyLocation, setCompanyLocation] = useState('');
@@ -32,7 +35,8 @@ const CadastrarJob = () => {
       const data = await result.json()
       console.log(data)
       if(data?.success){
-        navigation.goBack()
+        navigation.navigate('Principal');
+        jobStore.addJob(data.job)
       } else {
         alert(data.error)
       }

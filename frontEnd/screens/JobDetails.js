@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text,  StyleSheet, Image, ScrollView, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../components/ui/Button';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+// import jobStore from '../stores/jobStore'
+import useJobStore from '../stores/jobStore';
 
 
 const JobDetails = ({ route }) => {
   const { job } = route.params;
-
+  const jobStore= useJobStore(state=>state);
   const [companyFunction, setCompanyFunction] = useState(job.companyFunction);
   const [companyName, setCompanyName] = useState(job.companyName);
   const [companyLocation, setCompanyLocation] = useState(job.companyLocation);
@@ -32,14 +34,15 @@ async function handleEditJob() {
     try {
       const userLogged = JSON.parse(await AsyncStorage.getItem('userLogged'));
       const token = userLogged.token; 
-
+      
       const response = await axios.put(`https://jobsfull.onrender.com/job/${updatedJob.id}`, updatedJob, {
         headers: {
           Authorization: `Bearer ${token}`
         },
       });
-
-      navigation.navigate('Main');
+      jobStore.updateJob(response.data.job)
+      
+      navigation.navigate('Principal');
 
 
     } catch (error) {
@@ -60,7 +63,8 @@ async function handleEditJob() {
         },
       });
   
-      navigation.navigate('Main');
+      jobStore.removeJob(job.id)
+      navigation.navigate('Principal');
   
     } catch (error) {
       console.error('Failed to delete job:', error);
