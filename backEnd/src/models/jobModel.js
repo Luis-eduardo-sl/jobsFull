@@ -66,6 +66,7 @@ function validateJobToUpdate(job) {
 
 const getAll = async () => {
     return await prisma.job.findMany({
+        orderBy:{ id: 'asc'},
         select: {
             id: true,
             companyFunction: true,
