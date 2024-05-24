@@ -6,7 +6,7 @@ import useUserLoggedStore from '../stores/useUserLoggedStore';
 
 
 
-const ListUser = () => {
+const ListJob = () => {
   const navigation = useNavigation();
   const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -150,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListUser;
+export default ListJob;

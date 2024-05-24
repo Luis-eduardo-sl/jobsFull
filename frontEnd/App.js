@@ -3,14 +3,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Octicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'
-import ListUser from './screens/ListUser'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ListJob from './screens/ListJob'
 import Cadastrar from './screens/Cadastrar'
 import Perfil from './screens/Perfil.js'
 import Splash from './screens/Splash.js'
 import Login from './screens/Login.js'
 import CadastrarJob from './screens/CadastrarJob.js'
 import JobDetails from './screens/JobDetails.js'
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -20,7 +20,7 @@ const UserNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen 
         name="Principal"
-        component={ListUser}
+        component={ListJob}
         options={{
           headerShown: false
         }} />
