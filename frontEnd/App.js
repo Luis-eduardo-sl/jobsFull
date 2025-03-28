@@ -33,10 +33,7 @@ const UserNavigator = () => {
         name="JobDetails"
         component={JobDetails}
         options={{
-          headerShown: true,
-          headerTransparent: true, 
-          headerTitle: '', 
-          headerTintColor: theme.colors.text
+          headerShown: false
         }}
       />
     </Stack.Navigator>

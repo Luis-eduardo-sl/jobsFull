@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ImageBackground, StatusBar,TouchableOpacity,Pressable, TextInput } from 'react-native';
-import Body from '../components/Body';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import useUserLoggedStore from '../stores/useUserLoggedStore';
 import useJobStore from '../stores/jobStore';
-
-
+import useThemeStore from '../stores/useThemeStore';
+import { Ionicons } from '@expo/vector-icons';
+import ThemeToggle from '../components/ui/ThemeToggle';
 
 const ListJob = () => {
   const navigation = useNavigation();
-  const {jobs, setJobs} = useJobStore(state=>state);
+  const { jobs, setJobs } = useJobStore(state => state);
   const [searchTerm, setSearchTerm] = useState('');
-  const name = useUserLoggedStore(state => state.name)
+  const userLogged = useUserLoggedStore(state => state);
+  const { theme } = useThemeStore();
 
-
-
-  const filteredJobs = jobs.filter(job => 
+  const filteredJobs = jobs.filter(job =>
     job.companyFunction.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -35,119 +34,176 @@ const ListJob = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Body />
-      <View style={styles.boasVindas}>
-        <Text style={styles.userName}>Olá {name?.split(" ")[0]}</Text>
-        <Text style={styles.welcomeMessage}>Ache o emprego perfeito</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <View style={styles.header}>
+        <View style={styles.titleContainer}>
+          <Text style={[styles.headerTitle, { color: theme.colors.primary }]}>Jobs</Text>
+        </View>
+        <View style={styles.headerBottom}>
+          <Text style={[styles.greeting, { color: theme.colors.text }]}>
+            Olá, {userLogged.name}
+          </Text>
+          <ThemeToggle />
+        </View>
       </View>
-      <TextInput
-        style={styles.input}
-        value={searchTerm}
-        onChangeText={setSearchTerm}
-        placeholder="Pesquisar"
-      />
-      <View style={{flex: 6}}> 
-        <FlatList 
-          data={filteredJobs}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <Pressable onPress={() => navigation.navigate('JobDetails', { job: item })}>
-              <View style={styles.card}>
-                <Image  style={styles.image} 
-                 source={{ uri: item.companyLogo ? item.companyLogo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfmWh-XjegmLYmjrErivP95Nfsu4zkB3815Q&s' }}
-                />
-                <View style={styles.cardContent}>
-                  <View style={styles.titleLocationContainer}>
-                    <Text style={styles.title}>{item.companyFunction}</Text>
-                    <Text style={styles.companyLocation}>{item.companyLocation}</Text>
-                  </View>
-                  <Text style={styles.companyName}>{item.companyName}</Text>
-                  <Text style={styles.salary}>R$ {item.salary}</Text>
-                </View>
-              </View>
-            </Pressable>
-          )}
+
+      <View style={[styles.searchContainer, { backgroundColor: theme.colors.surface }]}>
+        <Ionicons name="search-outline" size={20} color={theme.colors.textSecondary} />
+        <TextInput
+          style={[styles.input, { color: theme.colors.text }]}
+          value={searchTerm}
+          onChangeText={setSearchTerm}
+          placeholder="Pesquisar vagas..."
+          placeholderTextColor={theme.colors.textSecondary}
         />
       </View>
-    </View>
-  );}
+
+      <FlatList
+        data={filteredJobs}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.listContainer}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('JobDetails', { job: item })}
+            style={[styles.card, { backgroundColor: theme.colors.surface }]}
+          >
+            <Image
+              style={styles.image}
+              source={{
+                uri: item.companyLogo
+                  ? item.companyLogo
+                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfmWh-XjegmLYmjrErivP95Nfsu4zkB3815Q&s'
+              }}
+            />
+            <View style={styles.cardContent}>
+              <View style={styles.titleLocationContainer}>
+                <Text style={[styles.title, { color: theme.colors.text }]}>
+                  {item.companyFunction}
+                </Text>
+                <View style={styles.locationContainer}>
+                  <Ionicons name="location-outline" size={16} color={theme.colors.textSecondary} />
+                  <Text style={[styles.companyLocation, { color: theme.colors.textSecondary }]}>
+                    {item.companyLocation}
+                  </Text>
+                </View>
+              </View>
+              <Text style={[styles.companyName, { color: theme.colors.textSecondary }]}>
+                {item.companyName}
+              </Text>
+              <View style={styles.salaryContainer}>
+                <Ionicons name="cash-outline" size={16} color={theme.colors.primary} />
+                <Text style={[styles.salary, { color: theme.colors.primary }]}>
+                  R$ {item.salary}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-  boasVindas: {
-    backgroundColor: '#FAFAFC',
-    marginBottom:20
-  },
   container: {
     flex: 1,
-    backgroundColor: '#FAFAFC',
-    padding: 15
   },
-  userName: {
-    fontSize: 15,
-    fontWeight:"400",
-    color: '#000',
-    marginLeft: 10,
-    marginRight: 10,
+  header: {
+    padding: 20,
+    paddingTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
-  welcomeMessage: {
-    fontSize: 22,
-    fontWeight:"600",
-    color: '#000',
-    marginLeft: 10,
-    marginRight: 10,
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    marginTop: 8,
+  },
+  headerTitle: {
+    fontSize: 38,
+    fontWeight: 'bold',
+  },
+  headerBottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  greeting: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    paddingHorizontal: 16,
+    height: 48,
+    borderRadius: 12,
+    gap: 12,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+  },
+  listContainer: {
+    padding: 20,
   },
   card: {
     flexDirection: 'row',
-    margin: 10,
-    backgroundColor: '#F5F5F7',
-    borderRadius: 15,
-    padding: 10,
-    borderColor: '#a1b4f7',
-    borderWidth: 2,
+    marginBottom: 16,
+    padding: 16,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   image: {
-    width: 70,
-    height: 70,
-    borderRadius: 7,
+    width: 60,
+    height: 60,
+    borderRadius: 8,
   },
   cardContent: {
-    marginLeft: 10,
     flex: 1,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  companyName: {
-    marginTop: 5,
-  },
-  companyLocation: {
-    marginTop: 5,
-  },
-  salary: {
-    marginTop: 5,
-    color: "#123DDB"
-  },
-  jobDescription: {
-    marginTop: 5,
+    marginLeft: 16,
   },
   titleLocationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 8,
   },
-  input: {
-    padding: 10,
-    height: 40,
-    width: 350,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingLeft: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-    alignSelf:'center',
-    borderColor:'#a1b4f7'
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  companyLocation: {
+    fontSize: 14,
+  },
+  companyName: {
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  salaryContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  salary: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
