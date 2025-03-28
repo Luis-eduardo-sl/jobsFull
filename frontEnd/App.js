@@ -4,6 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Octicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useEffect } from 'react';
+import useThemeStore from './stores/useThemeStore';
+import ThemeTransition from './components/ui/ThemeTransition';
 import ListJob from './screens/ListJob'
 import Cadastrar from './screens/Cadastrar'
 import Perfil from './screens/Perfil.js'
@@ -16,6 +19,8 @@ const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const UserNavigator = () => {
+  const { theme } = useThemeStore();
+  
   return (
     <Stack.Navigator>
       <Stack.Screen 
@@ -31,87 +36,105 @@ const UserNavigator = () => {
           headerShown: true,
           headerTransparent: true, 
           headerTitle: '', 
-          headerTintColor: "#000" 
+          headerTintColor: theme.colors.text
         }}
       />
     </Stack.Navigator>
   )
 }
 
-
-
 const MainNavigator = () => {
+  const { theme } = useThemeStore();
+  
   return (
-    <SafeAreaView style={{flex: 1}}>
-    <Tab.Navigator screenOptions={{
-      headerStyle: { backgroundColor: '#000' },
-      tabBarActiveTintColor: "#123DDB",
-      tabBarInactiveTintColor: "#000",
-      headerTitleStyle: { color: "#FFF" },
-      tabBarShowLabel: false,
-    }}>
-      <Tab.Screen
-        name="Users"
-        component={UserNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color} ) => (
-            <Feather name="home" color={color}  size={25} />
-          )
-        }}
-      />
-      <Tab.Screen name="Perfil" component={CadastrarJob} options={{
-        headerShown: false,
-        tabBarIcon: ({color} ) => (
-          <Octicons name="diff-added" size={24} color={color}  />        
-        )
-      }}/>
-      <Tab.Screen name="Teste" component={Perfil} options={{
-        headerShown: false,
-        tabBarIcon: ({color}) => (
-          <Feather name="user" size={24} color={color} />
-        )
-      }} />
-
-    </Tab.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <Tab.Navigator screenOptions={{
+        headerStyle: { backgroundColor: theme.colors.surface },
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.textSecondary,
+        headerTitleStyle: { color: theme.colors.text },
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          borderTopColor: theme.colors.border,
+        },
+      }}>
+        <Tab.Screen
+          name="Users"
+          component={UserNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <Feather name="home" color={color} size={25} />
+            )
+          }}
+        />
+        <Tab.Screen 
+          name="Perfil" 
+          component={CadastrarJob} 
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <Octicons name="diff-added" size={24} color={color} />
+            )
+          }}
+        />
+        <Tab.Screen 
+          name="Teste" 
+          component={Perfil} 
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <Feather name="user" size={24} color={color} />
+            )
+          }}
+        />
+      </Tab.Navigator>
     </SafeAreaView>
   )
 }
 
-
 export default function App() {
+  const { initializeTheme } = useThemeStore();
+
+  useEffect(() => {
+    initializeTheme();
+  }, []);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-        name="Splash"
-        component={Splash} 
-        options={{
-          headerShown: false
-        }}
-        />
-        <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerShown: false
-        }}
-        />
-        <Stack.Screen
-          name="Cadastrar"
-          component={Cadastrar}
-          options={{
-            title: "Cadastrar Usuario"
-          }}
-        />
-        <Stack.Screen
-          name="Main"
-          component={MainNavigator}
+    <ThemeTransition>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+          name="Splash"
+          component={Splash} 
           options={{
             headerShown: false
           }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          />
+          <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false
+          }}
+          />
+          <Stack.Screen
+            name="Cadastrar"
+            component={Cadastrar}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="Main"
+            component={MainNavigator}
+            options={{
+              headerShown: false
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeTransition>
   )
 }

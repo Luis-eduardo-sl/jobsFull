@@ -35,7 +35,7 @@ async function handleEditJob() {
       const userLogged = JSON.parse(await AsyncStorage.getItem('userLogged'));
       const token = userLogged.token; 
       
-      const response = await axios.put(`https://jobsfull.onrender.com/job/${updatedJob.id}`, updatedJob, {
+      const response = await axios.put(`http://localhost:3333/job/${updatedJob.id}`, updatedJob, {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -57,7 +57,7 @@ async function handleEditJob() {
       const userLogged = JSON.parse(await AsyncStorage.getItem('userLogged'));
       const token = userLogged.token; 
   
-      const response = await axios.delete(`https://jobsfull.onrender.com/job/${job.id}`, {
+      const response = await axios.delete(`http://localhost:3333/job/${job.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         },

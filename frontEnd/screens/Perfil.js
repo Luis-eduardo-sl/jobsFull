@@ -39,7 +39,7 @@ const Perfil = () => {
       const id = userLogged.id
       const updatedData= {name, email, avatar}
       const token = userLogged.token; 
-      const response = await axios.put(`https://jobsfull.onrender.com/user/${id}`, updatedData, {
+      const response = await axios.put(`http://localhost:3333/user/${id}`, updatedData, {
       headers: {
         Authorization: `Bearer ${token}`
       }})
@@ -81,7 +81,7 @@ const Perfil = () => {
       const userLogged = JSON.parse(await AsyncStorage.getItem('userLogged'));
       const token = userLogged.token; 
   
-      const response = await axios.delete(`https://jobsfull.onrender.com/user/${userLogged.id}`, {
+      const response = await axios.delete(`http://localhost:3333/user/${userLogged.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         },
