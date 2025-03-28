@@ -49,51 +49,17 @@ npm run tunnel
 
 ### Backend
 ```bash
-# Instalar dependências
-cd backend
-npm install
-
-# Configurar o banco de dados
-npx prisma db push
-npx prisma generate
-
-# Iniciar o servidor
-npm run dev
+ cd backend
 ```
-
-## 📁 Estrutura do Projeto
-
+```bash
+ npm install
 ```
-job/
-├── frontend/           # Aplicativo React Native
-│   ├── components/    # Componentes reutilizáveis
-│   ├── screens/       # Telas do aplicativo
-│   ├── stores/        # Gerenciamento de estado
-│   └── assets/        # Recursos estáticos
-│
-└── backend/           # API Node.js
-    ├── src/          # Código fonte
-    ├── prisma/       # Configurações do banco de dados
-    └── database/     # Scripts e migrations
+```bash
+ npx prisma db push
 ```
-
-## 🔒 Segurança
-
-- Autenticação via JWT
-- Validação de dados
-- Proteção contra ataques comuns
-- Criptografia de dados sensíveis
-
-## 🤝 Como Contribuir
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-Desenvolvido com ❤️ por Luis
+```bash
+ npx prisma generate
+```
+```bash
+ npm run dev
+``` 
