@@ -53,7 +53,23 @@ const MainNavigator = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: theme.colors.surface,
-          borderTopColor: theme.colors.border,
+          borderTopWidth: 0,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          height: 50,
+          paddingBottom: 10,
+          paddingTop: 10,
+          elevation: 8,
+          shadowColor: theme.colors.text,
+          shadowOffset: {
+            width: 0,
+            height: -2,
+          },
+          shadowOpacity: 0.1,
+          shadowRadius: 3,
+        },
+        tabBarItemStyle: {
+          padding: 8,
         },
       }}>
         <Tab.Screen
