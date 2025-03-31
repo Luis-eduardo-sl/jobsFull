@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, Image, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import useThemeStore from '../stores/useThemeStore';
 import useUserLoggedStore from '../stores/useUserLoggedStore';
-import { Ionicons } from '@expo/vector-icons';
 import ThemeToggle from '../components/ui/ThemeToggle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -110,73 +110,81 @@ const Perfil = () => {
               <Ionicons name="person" size={40} color={theme.colors.textSecondary} />
             )}
           </View>
-          {isEditing ? (
-            <TextInput
-              style={[styles.input, { color: theme.colors.text }]}
-              value={formData.avatar}
-              onChangeText={(text) => setFormData({ ...formData, avatar: text })}
-              placeholder="URL da imagem de perfil"
-              placeholderTextColor={theme.colors.textSecondary}
-            />
-          ) : null}
-        </View>
 
-        <View style={styles.menuSection}>
-          <View style={[styles.inputContainer, { backgroundColor: theme.colors.surface }]}>
-            <Ionicons name="person-outline" size={20} color={theme.colors.textSecondary} />
-            <TextInput
-              style={[styles.input, { color: theme.colors.text }]}
-              value={formData.name}
-              onChangeText={(text) => setFormData({ ...formData, name: text })}
-              placeholder="Nome"
-              placeholderTextColor={theme.colors.textSecondary}
-              editable={isEditing}
-            />
-          </View>
-
-          <View style={[styles.inputContainer, { backgroundColor: theme.colors.surface }]}>
-            <Ionicons name="mail-outline" size={20} color={theme.colors.textSecondary} />
-            <TextInput
-              style={[styles.input, { color: theme.colors.text }]}
-              value={formData.email}
-              onChangeText={(text) => setFormData({ ...formData, email: text })}
-              placeholder="Email"
-              placeholderTextColor={theme.colors.textSecondary}
-              editable={isEditing}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-
-          {isEditing ? (
-            <TouchableOpacity
-              style={[styles.saveButton, { backgroundColor: theme.colors.primary }]}
-              onPress={handleSave}
-            >
-              <Text style={styles.buttonText}>Salvar Alterações</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={[styles.editButton, { backgroundColor: theme.colors.primary }]}
-              onPress={() => setIsEditing(true)}
-            >
-              <Text style={styles.buttonText}>Editar Perfil</Text>
-            </TouchableOpacity>
+          {isEditing && (
+            <View style={[styles.inputContainer, { backgroundColor: theme.colors.surface, marginBottom: 16 }]}>
+              <Ionicons name="image-outline" size={20} color={theme.colors.textSecondary} />
+              <TextInput
+                style={[styles.input, { color: theme.colors.text }]}
+                value={formData.avatar}
+                onChangeText={(text) => setFormData({ ...formData, avatar: text })}
+                placeholder="URL da imagem de perfil"
+                placeholderTextColor={theme.colors.textSecondary}
+              />
+            </View>
           )}
 
+          <View style={styles.menuSection}>
+            <View style={[styles.inputContainer, { backgroundColor: theme.colors.surface }]}>
+              <Ionicons name="person-outline" size={20} color={theme.colors.textSecondary} />
+              <TextInput
+                style={[styles.input, { color: theme.colors.text }]}
+                value={formData.name}
+                onChangeText={(text) => setFormData({ ...formData, name: text })}
+                placeholder="Nome"
+                placeholderTextColor={theme.colors.textSecondary}
+                editable={isEditing}
+              />
+            </View>
+
+            <View style={[styles.inputContainer, { backgroundColor: theme.colors.surface }]}>
+              <Ionicons name="mail-outline" size={20} color={theme.colors.textSecondary} />
+              <TextInput
+                style={[styles.input, { color: theme.colors.text }]}
+                value={formData.email}
+                onChangeText={(text) => setFormData({ ...formData, email: text })}
+                placeholder="Email"
+                placeholderTextColor={theme.colors.textSecondary}
+                editable={isEditing}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            {isEditing ? (
+              <TouchableOpacity
+                style={[styles.button, styles.saveButton, { backgroundColor: theme.colors.primary }]}
+                onPress={handleSave}
+              >
+                <Ionicons name="checkmark-outline" size={20} color="#FFFFFF" />
+                <Text style={styles.buttonText}>Salvar Alterações</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[styles.button, styles.editButton, { backgroundColor: theme.colors.primary }]}
+                onPress={() => setIsEditing(true)}
+              >
+                <Ionicons name="pencil-outline" size={20} color="#FFFFFF" />
+                <Text style={styles.buttonText}>Editar Perfil</Text>
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity 
+              style={[styles.button, styles.logoutButton, { backgroundColor: theme.colors.error }]}
+              onPress={handleLogout}
+            >
+              <Ionicons name="log-out-outline" size={20} color="#FFFFFF" />
+              <Text style={styles.buttonText}>Sair</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.deleteSection}>
           <TouchableOpacity
-            style={[styles.deleteButton, { backgroundColor: theme.colors.error }]}
+            style={styles.deleteButtonContainer}
             onPress={handleDelete}
           >
-            <Text style={styles.buttonText}>Excluir Conta</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.logoutButton, { backgroundColor: theme.colors.error }]}
-            onPress={handleLogout}
-          >
-            <Ionicons name="log-out-outline" size={24} color="#FFFFFF" />
-            <Text style={styles.buttonText}>Sair</Text>
+            <Text style={[styles.deleteButtonText, { color: theme.colors.error }]}>Excluir Conta</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -208,9 +216,9 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   avatarContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 150,
+    height: 150,
+    borderRadius: 75,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
@@ -219,10 +227,6 @@ const styles = StyleSheet.create({
   avatarImage: {
     width: '100%',
     height: '100%',
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
   },
   menuSection: {
     gap: 12,
@@ -236,38 +240,48 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     gap: 12,
   },
-  saveButton: {
-    height: 56,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8,
+  input: {
+    flex: 1,
+    fontSize: 16,
   },
-  editButton: {
-    height: 56,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  deleteButton: {
-    height: 56,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoutButton: {
+  button: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    height: 48,
+    borderRadius: 8,
     gap: 8,
-    padding: 16,
-    borderRadius: 12,
+    marginTop: 8,
+    paddingHorizontal: 16,
+  },
+  saveButton: {
+    backgroundColor: '#4CAF50',
+  },
+  editButton: {
+    backgroundColor: '#2196F3',
+  },
+  deleteButton: {
+    backgroundColor: '#F44336',
+  },
+  logoutButton: {
+    backgroundColor: '#F44336',
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  deleteSection: {
+    alignItems: 'center',
+    marginTop: 32,
+    paddingVertical: 16,
+  },
+  deleteButtonContainer: {
+    paddingVertical: 8,
+  },
+  deleteButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
 
